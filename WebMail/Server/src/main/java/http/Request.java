@@ -7,12 +7,14 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONObject;
+
 public class Request {
 private InputStream is;
 	
 	private BufferedReader br; 
 	
-	private String httpMethod;
+	private String method;
 	
 	private String path;
 	
@@ -23,6 +25,7 @@ private InputStream is;
 	private Map<String, String> headers = new HashMap<String, String>();
 	
 	protected byte[] body;
+	protected JSONObject bodyAsObject;	
 
 	public Request(InputStream is) {
 		this.is = is;
@@ -32,8 +35,8 @@ private InputStream is;
 		
 		try {
 			firstLine = br.readLine();
-			httpMethod = firstLine.substring(0, firstLine.indexOf(' '));
-			path = firstLine.substring(httpMethod.length()+1, firstLine.indexOf(' ', httpMethod.length()+1));
+			method = firstLine.substring(0, firstLine.indexOf(' '));
+			path = firstLine.substring(method.length()+1, firstLine.indexOf(' ', method.length()+1));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -61,7 +64,7 @@ private InputStream is;
 			contentLength = Integer.parseInt(strContentLength);
 		}
 
-		//body = br.read(contentLength);
+		body = readBody(contentLength);
 	}
 
 	public byte[] getBody() {
@@ -73,7 +76,7 @@ private InputStream is;
 	}
 
 	public String getHttpMethod() {
-		return httpMethod;
+		return method;
 	}
 
 	public String getPath() {
@@ -94,7 +97,33 @@ private InputStream is;
 
 	@Override
 	public String toString() {
-		return "Request [httpMethod=" + httpMethod + ", path=" + path + "]";
+		return "Request [httpMethod=" + method + ", path=" + path + "]";
 	}
-
+	
+	private byte[] readBody(int size){
+		byte[] buffer = new byte[1024*1024*10]; // 10Mb
+		int readContent = 0;
+		int pointer = 0;
+		byte[] res = new byte[size];
+		
+		while(readContent + size > pointer) {
+			try {
+				while(is.available()==0) {
+					Thread.sleep(500);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			try {
+				while(is.available()>0) {
+					buffer[pointer++] = (byte)is.read();
+				}
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+		System.arraycopy(buffer, readContent, res, 0, size);
+		readContent += size;
+		}
+		return res;
+	}
 }
