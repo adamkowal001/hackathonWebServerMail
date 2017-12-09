@@ -7,11 +7,13 @@ public class Email {
 	private String from;
 	private String to;
 	private String content;
+	private int id = -1;
 	
-	public Email(String from, String to, String content){
+	public Email(int id, String from, String to, String content){
 		this.from = from;
 		this.to = to;
 		this.content = content;
+		this.id = id;
 	}
 	
 	public Email(JSONObject obj){
