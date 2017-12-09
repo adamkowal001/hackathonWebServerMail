@@ -35,7 +35,7 @@ public class DBsupport {
             e.printStackTrace();
         }
  
-        createTables();
+       // createTables();
     }
  
     public boolean createTables()  {
@@ -107,7 +107,7 @@ public class DBsupport {
     	User user;
     	
         try {
-            ResultSet result = stat.executeQuery("SELECT * FROM users WHERE user_login = " + userName);
+            ResultSet result = stat.executeQuery("SELECT * FROM users WHERE user_login = " +  "\"" + userName + "\"");
             int id=-1;
             String login="NOT FOUND";
             String password= "NOT FOUND";
@@ -169,8 +169,7 @@ public class DBsupport {
 	   obj.delete("users");
 	   obj.delete("emails");
 	   obj.createTables();
-	   obj.insertUsers
-	   ("AK@gmail.com", "zaq");
+	   obj.insertUsers("AK@gmail.com", "zaq");
 	   obj.insertUsers("KB@gmail.com", "wsx");
 	   obj.insertUsers("MK@gmail.com", "cde");
 	   

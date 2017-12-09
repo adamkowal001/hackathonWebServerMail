@@ -22,7 +22,9 @@ public class Request {
         private void login(String login, String pass){
         	this.login = login;
         	this.password = pass;
-        	send(toJson(this.login, this.password));
+        	send(toJson(this.password));
+        	
+        	
         }
         
         public void write(String text, String to){
@@ -40,6 +42,7 @@ public class Request {
         	json.put("author", this.login);
         	JSONObject data = new JSONObject();
         	json.put("data", data);
+        	System.out.println(json);
         	return json;
         }
         
@@ -72,6 +75,7 @@ public class Request {
         
 		public void send(JSONObject json) {
             PrintStream ps = new PrintStream(out);
-            ps.print(json.toString());
+            ps.println(json.toString());
+            ps.flush();
         }
 }

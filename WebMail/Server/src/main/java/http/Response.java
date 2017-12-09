@@ -35,9 +35,15 @@ public class Response{
 		JSONObject json = new JSONObject();
 		json.put("status", this.status);
 		JSONArray jarray = new JSONArray();
-		jarray.put(this.list);
+		for (Email email : this.list) {
+			JSONObject json2 = new JSONObject(email.toString());
+			jarray.put(json2);
+			
+		}
 		json.put("emails", jarray);
-		ps.print(json.toString());	
+		System.out.println(json.toString());
+		ps.println(json.toString());
+		ps.flush();
 	}
 	
 }

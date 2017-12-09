@@ -35,8 +35,12 @@ public class Client {
 	public static void main(String[] args){
 		Client client = new Client();
 		
-		Request req = new Request(client.getOs(), "user", "pass");
+		Request req = new Request(client.getOs(), "AK@gmail.com", "zaq");
+		System.out.println("wszedlem");
+		
+		client = new Client();
 		req.read();
+		System.out.println("wszedlem2");
 		// req.write("some text", "user2");
 		
 		Response res = new Response(client.getIs());

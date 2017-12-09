@@ -30,10 +30,14 @@ public class Response {
 	}
 
 	public Response(InputStream is){
+		System.out.println("frf");
 		this.br = new BufferedReader(new InputStreamReader(is));
 		JSONObject json = toJson();
 		this.status = json.getBoolean("status");
+		System.out.println("frf");
 		JSONArray emailsAsJsons = json.getJSONArray("emails");
+//		System.out.println(emailsAsJsons.get(0).getClass());
+		System.out.println("frf" + emailsAsJsons.length());
 		for (int i = 0; i < emailsAsJsons.length(); i++){
 			emails.add(new Email(emailsAsJsons.getJSONObject(i)));
 		}
@@ -41,6 +45,8 @@ public class Response {
 	
 	private JSONObject toJson(){
 		try {
+			System.out.println("przezd readline");
+			System.out.println(br.readLine());
 			return new JSONObject(br.readLine());
 		} catch (JSONException e) {
 			e.printStackTrace();

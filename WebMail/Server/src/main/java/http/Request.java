@@ -44,7 +44,10 @@ public class Request {
 		br = new BufferedReader(new InputStreamReader(is));
 		
 		try {
+			System.out.println("przed readline");
+			
 			this.json = new JSONObject(br.readLine());
+			System.out.println(this.json.toString());
 			this.method = json.getString("method");
 			if (this.method.equals("read")) {
 				author = json.getString("author");								
