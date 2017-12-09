@@ -82,8 +82,8 @@ public class DBsupport {
         return true;
     }
     
-    public List<User> selectUsers() {
-    	List<User> users = new ArrayList<User>();
+    public ArrayList<User> selectUsers() {
+    	ArrayList<User> users = new ArrayList<User>();
     	
         try {
             ResultSet result = stat.executeQuery("SELECT * FROM users");
@@ -94,7 +94,7 @@ public class DBsupport {
 	                id = result.getInt("id_user");
 	                login = result.getString("user_login");
 	                password = result.getString("user_password");
-	                users.add(new User(id, login, password));
+	                users.add(new User(login, password));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -103,8 +103,27 @@ public class DBsupport {
         return users;
     }
     
-    public List<Email> selectMails(String login) {
-    	List<Email> emails = new ArrayList<Email>();
+    public User selectUser(String userName) {
+    	User user;
+    	
+        try {
+            ResultSet result = stat.executeQuery("SELECT * FROM users WHERE user_login = " + userName);
+            int id=-1;
+            String login="NOT FOUND";
+            String password= "NOT FOUND";
+            
+            user = new User (result.getString("user_login"), result.getString("user_password"));
+            id = result.getInt("id_user");
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return user;
+    }
+    
+    public ArrayList<Email> selectMails(String login) {
+    	ArrayList<Email> emails = new ArrayList<Email>();
         try {
             ResultSet result = stat.executeQuery("SELECT * FROM emails WHERE user_login = " + "\"" + login + "\"");
             int id=-1;
@@ -117,7 +136,7 @@ public class DBsupport {
 	                from = result.getString("author");
 	                to = result.getString("user_login");
 	                content = result.getString("content");
-	                emails.add(new Email(id, from, to, content));
+	                emails.add(new Email(from, to, content));
             }
         } catch (SQLException e) {
             e.printStackTrace();
