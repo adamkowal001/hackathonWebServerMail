@@ -150,7 +150,8 @@ public class DBsupport {
 	   obj.delete("users");
 	   obj.delete("emails");
 	   obj.createTables();
-	   obj.insertUsers("AK@gmail.com", "zaq");
+	   obj.insertUsers
+	   ("AK@gmail.com", "zaq");
 	   obj.insertUsers("KB@gmail.com", "wsx");
 	   obj.insertUsers("MK@gmail.com", "cde");
 	   
